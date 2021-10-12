@@ -6,7 +6,7 @@ import App from './App';
 import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import logger from 'redux-logger';
 import { ModuleContext } from './Utils/AsyncModules';
-
+import { activePlugins } from './Utils/constants';
 let moduleMap = {};
 
 window.loadPluginEntry = (scopeName, container) => {
@@ -31,7 +31,12 @@ const AppEntry = () => {
     };
   }, []);
   return (
-    <ModuleContext.Provider value={activeModules}>
+    <ModuleContext.Provider
+      value={{
+        activeModules,
+        activePlugins,
+      }}
+    >
       <Provider
         store={init(
           process.env.NODE_ENV !== 'production' ? logger : []

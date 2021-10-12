@@ -29,18 +29,18 @@ export const asyncLoader = async (container, module) => {
 };
 
 export function useModule(scope, module, defaultState) {
-  const moduleMap = useContext(ModuleContext);
+  const { activeModules } = useContext(ModuleContext);
   const [data, setData] = useState(defaultState);
   const fetchModule = useCallback(async () => {
-    const Module = await asyncLoader(moduleMap[scope], module);
+    const Module = await asyncLoader(activeModules[scope], module);
     setData(() => Module);
-  }, [scope, module, moduleMap]);
+  }, [scope, module, activeModules]);
 
   useEffect(() => {
-    if (Object.keys(moduleMap).length > 0) {
+    if (Object.keys(activeModules).length > 0) {
       fetchModule();
     }
-  }, [fetchModule, moduleMap]);
+  }, [fetchModule, activeModules]);
 
   return data;
 }

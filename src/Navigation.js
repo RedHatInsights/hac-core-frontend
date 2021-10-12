@@ -1,21 +1,29 @@
+import { activePlugins } from './Utils/constants';
+
 export default async ({ dynamicNav, currentNamespace }) => {
   const [appId, navSection] = dynamicNav.split('/');
-  const { extensions } =
-    (await (
-      await fetch('/api/plugins/console-demo-plugin/plugin-manifest.json')
-    )?.json()) || {};
-  const routes = extensions
-    .filter(
-      ({ type, properties }) =>
-        type.includes('console.navigation') && properties.section === navSection
-    )
-    .map((item) => ({
-      appId,
-      href: `/${currentNamespace}/${navSection}${item.properties.href}`,
-      title: item.properties.name,
-    }));
+  const routes = [];
+  routes.push(
+    ...activePlugins.flatMap(async (item) => {
+      const { extensions } =
+        (await (
+          await fetch(`/api/plugins/${item}/plugin-manifest.json`)
+        )?.json()) || {};
+      return extensions
+        .filter(
+          ({ type, properties }) =>
+            type.includes('console.navigation') &&
+            properties.section === navSection
+        )
+        .map((item) => ({
+          appId,
+          href: `/${currentNamespace}/${navSection}${item.properties.href}`,
+          title: item.properties.name,
+        }));
+    })
+  );
   return {
     expandable: true,
-    routes,
+    routes: (await Promise.all(routes)).flat(),
   };
 };

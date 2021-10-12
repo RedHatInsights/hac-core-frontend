@@ -12,7 +12,7 @@ You can choose from either webpack proxy (simple to use) or more config heavy le
 
 1. ```npm install```
 
-2. ```npm run start:proxy``` / ```npm run start:beta:proxy```
+2. ```npm run start:proxy``` / ```npm run start:proxy:beta```
 
 Update `config/dev.webpack.config.js` according to your application URL. [Read more](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#useproxy).
 

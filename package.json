@@ -25,11 +25,13 @@
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
+    "@openshift-console/dynamic-plugin-sdk": "^0.0.0-beta2",
     "@patternfly/react-core": "4.135.0",
     "@patternfly/react-table": "4.29.0",
     "@redhat-cloud-services/frontend-components": "^3.3.3",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.2",
     "@redhat-cloud-services/frontend-components-utilities": "^3.2.4",
+    "@scalprum/core": "^0.0.12",
     "babel-loader": "^8.2.2",
     "classnames": "^2.3.1",
     "react": "17.0.2",

@@ -7,4 +7,5 @@ declare interface Window {
       appAction?: Function
     }
   }
+  loadPluginEntry?: Function
 }

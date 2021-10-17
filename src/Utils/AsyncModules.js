@@ -6,7 +6,10 @@ import {
   useContext,
 } from 'react';
 
-export const ModuleContext = createContext({});
+export const ModuleContext = createContext({
+  activePlugins: [],
+  activeModules: {},
+});
 
 export const asyncLoader = async (container, module) => {
   if (typeof container === 'undefined') {

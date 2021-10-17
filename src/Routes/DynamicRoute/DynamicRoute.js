@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
-import {
-  PageHeader,
-  PageHeaderTitle,
-} from '@redhat-cloud-services/frontend-components/PageHeader';
 import AsynComponent from '../../Components/AsyncComponent';
 import PropTypes from 'prop-types';
 import { ModuleContext } from '../../Utils/AsyncModules';
 
 const DynamicRoute = ({ location }) => {
-  const [{ component, title }, setComponent] = useState({
+  const [component, setComponent] = useState({
     title: 'HAC',
   });
   const { activePlugins } = useContext(ModuleContext);
@@ -26,20 +22,11 @@ const DynamicRoute = ({ location }) => {
                 ({ type, properties }) =>
                   type === 'console.page/route' && properties.path === `/${app}`
               ) || {};
-            const { properties: currHref } =
-              extensions.find(
-                ({ type, properties }) =>
-                  type === 'console.navigation/href' &&
-                  properties.href === `/${app}`
-              ) || {};
-            if (currRoute && currHref) {
+            if (currRoute) {
               setComponent({
-                component: {
-                  scope: item,
-                  module: currRoute?.component?.$codeRef,
-                  ...currRoute,
-                },
-                title: currHref.name,
+                scope: item,
+                module: currRoute?.component?.$codeRef,
+                ...currRoute,
               });
             }
           }
@@ -49,9 +36,6 @@ const DynamicRoute = ({ location }) => {
   }, [location?.pathname]);
   return (
     <React.Fragment>
-      <PageHeader>
-        <PageHeaderTitle title={title} />
-      </PageHeader>
       <Main>
         {component ? (
           <AsynComponent {...component} />

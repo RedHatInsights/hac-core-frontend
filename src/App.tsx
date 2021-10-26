@@ -6,22 +6,22 @@ import './App.scss';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
-
 import { ModuleContext } from './Utils/AsyncModules';
-import { loadDynamicPlugin } from '@console/dynamic-plugin-sdk/src/runtime/plugin-loader';
 
-const App: React.FC = () => {
+type AppProps = {
+  currModules: any,
+  activePlugins: any
+}
+
+const App = ({ currModules, activePlugins }: AppProps) => {
   const history = useHistory();
-  const { activePlugins } = React.useContext(ModuleContext);
+  const [activeModules, setActiveModules] = React.useState();
 
   React.useEffect(() => {
-    activePlugins.forEach(async (item) => {
-      const manifest = await (await fetch(`/api/plugins/${item}/plugin-manifest.json`)).json();
-      console.log(manifest, 'this is manifest');
-      loadDynamicPlugin(`/api/plugins/${item}/`, manifest);
-    }
-      // injectScript(item, `/api/plugins/${item}/plugin-entry.js`)
-    );
+    setActiveModules(currModules);
+  }, [currModules])
+
+  React.useEffect(() => {
     const registry = getRegistry();
     registry.register({ notifications: notificationsReducer });
     window.insights?.chrome?.init();
@@ -38,10 +38,15 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <React.Fragment>
-      <NotificationsPortal />
-      <Routes />
-    </React.Fragment>
+    <ModuleContext.Provider
+      value={{
+        activeModules,
+        activePlugins,
+      }}
+    >
+        <NotificationsPortal />
+        <Routes />
+    </ModuleContext.Provider>
   );
 };
 

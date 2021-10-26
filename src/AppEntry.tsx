@@ -7,7 +7,6 @@ import { getBaseName } from '@redhat-cloud-services/frontend-components-utilitie
 import logger from 'redux-logger';
 import { IncludePlugins } from '@console/mount/src/components/plugins';
 // import MainAppContent from '@console/mount/src/components/foundation/MainAppContent';
-import { ModuleContext } from './Utils/AsyncModules';
 import { activePlugins } from './Utils/constants';
 
 window.SERVER_FLAGS = {
@@ -15,31 +14,26 @@ window.SERVER_FLAGS = {
 };
 
 const AppEntry = () => {
-  const [activeModules, setActiveModules] = React.useState({});
+  const activeModules = React.useRef({});
   return (
-    <ModuleContext.Provider
-      value={{
-        activeModules,
-        activePlugins,
-      }}
-    >
       <Provider
         store={init(
           process.env.NODE_ENV !== 'production' ? logger : []
         ).getStore()}
       >
         <Router basename={getBaseName(window.location.pathname, 1)}>
-          <IncludePlugins onPluginRegister={(pluginStore, { scopeName, container }) => {
-            pluginStore.setDynamicPluginEnabled(scopeName, true);
-            setActiveModules((prevModules) => ({
-              ...prevModules,
-              [scopeName.split('@')?.[0]]: container,
-            }));
-          }}/>
-          <App />
+          <IncludePlugins
+            enabledPlugins={activePlugins}
+            onPluginRegister={({ scopeName, container }) => {
+              activeModules.current = {
+                ...activeModules.current,
+                [scopeName.split('@')?.[0]]: container,
+              }
+            }}
+          />
+          <App currModules={activeModules.current} activePlugins={activePlugins}/>
         </Router>
       </Provider>
-    </ModuleContext.Provider>
   );
 }
 

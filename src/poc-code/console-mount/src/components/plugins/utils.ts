@@ -12,14 +12,12 @@ const getURLSearchParams = () => {
   return all;
 };
 
-export const getEnabledDynamicPluginNames = (enabledPlugins) => {
+export const getEnabledDynamicPluginNames = () => {
   const allPluginNames = window.SERVER_FLAGS.consolePlugins;
   const disabledPlugins = getURLSearchParams()['disable-plugins'];
 
-  const plugins = [...allPluginNames, ...enabledPlugins];
-
   if (!disabledPlugins) {
-    return plugins;
+    return allPluginNames;
   }
 
   if (disabledPlugins === '') {
@@ -27,5 +25,5 @@ export const getEnabledDynamicPluginNames = (enabledPlugins) => {
   }
 
   const disabledPluginNames = _.compact(disabledPlugins.split(','));
-  return plugins.filter((pluginName) => !disabledPluginNames.includes(pluginName));
+  return allPluginNames.filter((pluginName) => !disabledPluginNames.includes(pluginName));
 };

@@ -29,7 +29,8 @@ const AppEntry = () => {
         ).getStore()}
       >
         <Router basename={getBaseName(window.location.pathname, 1)}>
-          <IncludePlugins enabledPlugins={activePlugins} onPluginRegister={({ scopeName, container }) => {
+          <IncludePlugins onPluginRegister={(pluginStore, { scopeName, container }) => {
+            pluginStore.setDynamicPluginEnabled(scopeName, true);
             setActiveModules((prevModules) => ({
               ...prevModules,
               [scopeName.split('@')?.[0]]: container,

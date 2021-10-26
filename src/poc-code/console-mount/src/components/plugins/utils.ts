@@ -12,12 +12,14 @@ const getURLSearchParams = () => {
   return all;
 };
 
-export const getEnabledDynamicPluginNames = () => {
+export const getEnabledDynamicPluginNames = (enabledPlugins) => {
   const allPluginNames = window.SERVER_FLAGS.consolePlugins;
   const disabledPlugins = getURLSearchParams()['disable-plugins'];
 
+  const plugins = [...allPluginNames, ...enabledPlugins];
+
   if (!disabledPlugins) {
-    return allPluginNames;
+    return plugins;
   }
 
   if (disabledPlugins === '') {
@@ -25,5 +27,5 @@ export const getEnabledDynamicPluginNames = () => {
   }
 
   const disabledPluginNames = _.compact(disabledPlugins.split(','));
-  return allPluginNames.filter((pluginName) => !disabledPluginNames.includes(pluginName));
+  return plugins.filter((pluginName) => !disabledPluginNames.includes(pluginName));
 };

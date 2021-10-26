@@ -18,7 +18,7 @@ const AppRoot: React.FC = () => {
   return (
     <React.Suspense fallback={<Spinner />}>
       <Provider store={store}>
-        <IncludePlugins />
+        <IncludePlugins enabledPlugins={[]} onPluginRegister={() => undefined}/>
         <Router history={history}>
           <TopLevelRoutes mainAppComponent={MainAppContent} />
         </Router>

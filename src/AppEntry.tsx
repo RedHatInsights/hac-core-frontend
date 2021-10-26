@@ -7,21 +7,39 @@ import { getBaseName } from '@redhat-cloud-services/frontend-components-utilitie
 import logger from 'redux-logger';
 import { IncludePlugins } from '@console/mount/src/components/plugins';
 // import MainAppContent from '@console/mount/src/components/foundation/MainAppContent';
+import { ModuleContext } from './Utils/AsyncModules';
+import { activePlugins } from './Utils/constants';
 
 window.SERVER_FLAGS = {
   consolePlugins: [],
 };
 
-const AppEntry = () => (
-  <Provider
-    store={init(process.env.NODE_ENV !== 'production' ? logger : []).getStore()}
-  >
-    <Router basename={getBaseName(window.location.pathname, 1)}>
-      <IncludePlugins />
-      {/*<MainAppContent />*/}
-      <App />
-    </Router>
-  </Provider>
-);
+const AppEntry = () => {
+  const [activeModules, setActiveModules] = React.useState({});
+  return (
+    <ModuleContext.Provider
+      value={{
+        activeModules,
+        activePlugins,
+      }}
+    >
+      <Provider
+        store={init(
+          process.env.NODE_ENV !== 'production' ? logger : []
+        ).getStore()}
+      >
+        <Router basename={getBaseName(window.location.pathname, 1)}>
+          <IncludePlugins enabledPlugins={activePlugins} onPluginRegister={({ scopeName, container }) => {
+            setActiveModules((prevModules) => ({
+              ...prevModules,
+              [scopeName.split('@')?.[0]]: container,
+            }));
+          }}/>
+          <App />
+        </Router>
+      </Provider>
+    </ModuleContext.Provider>
+  );
+}
 
 export default AppEntry;

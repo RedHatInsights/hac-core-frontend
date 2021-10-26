@@ -4,7 +4,12 @@ import { /* ActivePlugin, */ PluginStore } from '@console/plugin-sdk';
 import { useReduxStore } from '../../redux';
 import { getEnabledDynamicPluginNames } from './utils';
 
-const IncludePlugins: React.FC = () => {
+type PluginProps = {
+  enabledPlugins: string[],
+  onPluginRegister: Function
+}
+
+const IncludePlugins = ({ enabledPlugins, onPluginRegister }: PluginProps) => {
   const store = useReduxStore();
 
   React.useEffect(() => {
@@ -15,10 +20,10 @@ const IncludePlugins: React.FC = () => {
         //     // eslint-disable-next-line import/no-unresolved
         //     (require('@console/active-plugins').default as ActivePlugin[])
         //   : [];
-      const dynamicPluginNames = getEnabledDynamicPluginNames();
+      const dynamicPluginNames = getEnabledDynamicPluginNames(enabledPlugins);
       const pluginStore = new PluginStore(activePlugins, dynamicPluginNames);
 
-      initConsolePlugins(pluginStore, store);
+      initConsolePlugins(pluginStore, store, onPluginRegister);
     }
   }, [store]);
 

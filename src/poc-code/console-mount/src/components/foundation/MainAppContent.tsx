@@ -17,8 +17,6 @@ const MainAppContent: React.FC = () => {
     ContextProvider
   >(isContextProvider);
 
-  console.debug(contextProviderExtensions);
-
   if (!reduxExtensionsLoaded || !contextProvidersLoaded) {
     return <PageLoader />;
   }

@@ -5,7 +5,8 @@ let paths = {};
 try {
   paths = tsConfig.compilerOptions.paths;
 } catch (e) {
-  console.debug(e);
+  // eslint-disable-next-line no-console
+  console.error('Failed to parse tsConfig', e);
 }
 
 /** @param string { string } */
@@ -23,6 +24,7 @@ const tsConfigAliases = Object.keys(paths).reduce((acc, packageKey) => {
   };
 }, {});
 
+// eslint-disable-next-line no-console
 console.debug('TS Config generated Aliases', tsConfigAliases);
 
 const mergeTsConfigAliases = (webpackConfig) => ({

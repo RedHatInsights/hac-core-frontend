@@ -145,26 +145,6 @@ export type NavLinkComponent<T extends NavLinkProps = NavLinkProps> = React.Comp
   isActive: (props: T, resourcePath: string, activeNamespace: string) => boolean;
 };
 
-export const createLink = (
-  item: LoadedExtension<PluginNavItem>,
-  rootNavLink = false,
-): React.ReactElement => {
-  if (isNavItem(item)) {
-    let Component: NavLinkComponent = null;
-    if (isHrefNavItem(item)) {
-      Component = HrefLink;
-    }
-    if (Component) {
-      const { id, name, ...props } = item.properties;
-      if (rootNavLink) {
-        return <RootNavLink name={name} id={id} key={item.uid} component={Component} {...props} />;
-      }
-      return <Component name={name} id={id} key={item.uid} {...props} />;
-    }
-  }
-  return undefined;
-};
-
 type RootNavLinkStateProps = {
   canRender: boolean;
   isActive: boolean;
@@ -203,6 +183,26 @@ const rootNavLinkMapStateToProps = (
 });
 
 export const RootNavLink = connect(rootNavLinkMapStateToProps)(RootNavLinkInternal);
+
+export const createLink = (
+  item: LoadedExtension<PluginNavItem>,
+  rootNavLink = false,
+): React.ReactElement => {
+  if (isNavItem(item)) {
+    let Component: NavLinkComponent = null;
+    if (isHrefNavItem(item)) {
+      Component = HrefLink;
+    }
+    if (Component) {
+      const { id, name, ...props } = item.properties;
+      if (rootNavLink) {
+        return <RootNavLink name={name} id={id} key={item.uid} component={Component} {...props} />;
+      }
+      return <Component name={name} id={id} key={item.uid} {...props} />;
+    }
+  }
+  return undefined;
+};
 
 export type PluginNavItemsProps = {
   items: LoadedExtension<PluginNavSection | PluginNavItem | PluginNavSeparator>[];

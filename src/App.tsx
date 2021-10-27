@@ -13,7 +13,7 @@ type AppProps = {
   activePlugins: any
 }
 
-const App = ({ currModules, activePlugins }: AppProps) => {
+const App: React.FC<AppProps> = ({ currModules, activePlugins }) => {
   const history = useHistory();
   const [activeModules, setActiveModules] = React.useState();
 

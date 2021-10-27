@@ -1,44 +1,42 @@
-import React, { useContext, useEffect, useState } from 'react';
+import * as React from 'react';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
-import AsynComponent from '../../Components/AsyncComponent';
-import PropTypes from 'prop-types';
-import { ModuleContext } from '../../Utils/AsyncModules';
+import { useExtensions } from '@console/plugin-sdk/src';
+import {
+  isRoutePage as isDynamicRoutePage,
+  RoutePage as DynamicRoutePage,
+} from '@console/dynamic-plugin-sdk';
 
-const DynamicRoute = ({ location }) => {
-  const [component, setComponent] = useState({
-    title: 'HAC',
-  });
-  const { activePlugins } = useContext(ModuleContext);
-  useEffect(() => {
+const Loader = () => <Bullseye><Spinner /></Bullseye>;
+
+type DynamicRouteProps = {
+  location: Location
+};
+
+const DynamicRoute: React.FC<DynamicRouteProps> = ({ location }) => {
+  const [Component, setComponent] = React.useState<React.ExoticComponent<any>>(React.Fragment);
+  const dynamicRoutePages = useExtensions<DynamicRoutePage>(isDynamicRoutePage);
+  React.useEffect(() => {
     if (location) {
-      const [, , app] = location.pathname.split('/');
-      activePlugins.forEach((item) => {
-        fetch(`/api/plugins/${item}/plugin-manifest.json`).then(
-          async (data) => {
-            const { extensions } = await data.json();
-            const { properties: currRoute } =
-              extensions.find(
-                ({ type, properties }) =>
-                  type === 'console.page/route' && properties.path === `/${app}`
-              ) || {};
-            if (currRoute) {
-              setComponent({
-                scope: item,
-                module: currRoute?.component?.$codeRef,
-                ...currRoute,
-              });
-            }
-          }
-        );
-      });
+      const [, , app] = location.pathname?.split('/') || [];
+      if (app) {
+        const { properties: currRoute } = dynamicRoutePages.find(({ properties }) => properties.path === `/${app}`) || {};
+        if (currRoute) {
+          setComponent(() => React.lazy(async () => ({
+            default: (await currRoute.component()) || Loader
+          })));
+        }
+      }
     }
-  }, [location?.pathname]);
+  }, [location?.pathname, dynamicRoutePages]);
+
   return (
     <React.Fragment>
       <Main>
-        {component ? (
-          <AsynComponent {...component} />
+        {Component ? (
+          <React.Suspense fallback={null}>
+            <Component />
+          </React.Suspense>
         ) : (
           <Bullseye>
             <Spinner />
@@ -47,12 +45,6 @@ const DynamicRoute = ({ location }) => {
       </Main>
     </React.Fragment>
   );
-};
-
-DynamicRoute.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
 };
 
 export default DynamicRoute;

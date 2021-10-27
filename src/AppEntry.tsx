@@ -10,31 +10,20 @@ import { IncludePlugins } from '@console/mount/src/components/plugins';
 import { activePlugins } from './Utils/constants';
 
 window.SERVER_FLAGS = {
-  consolePlugins: [],
+  consolePlugins: activePlugins,
 };
 
-const AppEntry = () => {
-  const activeModules = React.useRef({});
-  return (
-      <Provider
-        store={init(
-          process.env.NODE_ENV !== 'production' ? logger : []
-        ).getStore()}
-      >
-        <Router basename={getBaseName(window.location.pathname, 1)}>
-          <IncludePlugins
-            enabledPlugins={activePlugins}
-            onPluginRegister={({ scopeName, container }) => {
-              activeModules.current = {
-                ...activeModules.current,
-                [scopeName.split('@')?.[0]]: container,
-              }
-            }}
-          />
-          <App currModules={activeModules.current} activePlugins={activePlugins}/>
-        </Router>
-      </Provider>
-  );
-}
+const AppEntry = () => (
+  <Provider
+    store={init(
+      process.env.NODE_ENV !== 'production' ? logger : []
+    ).getStore()}
+  >
+    <Router basename={getBaseName(window.location.pathname, 1)}>
+      <IncludePlugins enabledPlugins={activePlugins} />
+      <App />
+    </Router>
+  </Provider>
+)
 
 export default AppEntry;

@@ -18,8 +18,8 @@ const IncludePlugins = ({ enabledPlugins, onPluginRegister = () => undefined }: 
     if (pluginStore) {
       enabledPlugins && enabledPlugins.forEach(async (item) => {
         const manifest = await (await fetch(`/api/plugins/${item}/plugin-manifest.json`)).json();
-        loadDynamicPlugin(`/api/plugins/${item}/`, manifest).then(() => {
-          pluginStore.setDynamicPluginEnabled(`${manifest.name}@${manifest.version}`, true);
+        loadDynamicPlugin(`/api/plugins/${item}/`, manifest).then((pluginName) => {
+          pluginStore.setDynamicPluginEnabled(pluginName, true);
         });
       });
     }

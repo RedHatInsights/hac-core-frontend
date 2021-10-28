@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { combineReducers, ReducersMapObject } from 'redux';
 import { isReduxReducer, ReduxReducer, useResolvedExtensions } from '@console/dynamic-plugin-sdk';
 import { baseReducers } from './reducers';
@@ -19,7 +19,7 @@ const useReduxReducerExtensions = (): boolean => {
     pluginReducers[scope] = reducer;
   });
 
-  const nextReducers: ReducersMapObject<RootState> = _.isEmpty(pluginReducers)
+  const nextReducers: ReducersMapObject<RootState> = isEmpty(pluginReducers)
     ? baseReducers
     : { plugins: combineReducers(pluginReducers), ...baseReducers };
 

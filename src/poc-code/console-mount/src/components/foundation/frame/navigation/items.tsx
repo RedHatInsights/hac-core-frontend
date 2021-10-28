@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { NavItem, NavItemSeparator } from '@patternfly/react-core';
 // import * as classNames from 'classnames';
-import * as _ from 'lodash';
+import startsWith from 'lodash/startsWith';
+import some from 'lodash/some';
+import castArray from 'lodash/castArray';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import {
@@ -29,7 +31,7 @@ export const formatNamespacedRouteForHref = (href: string, namespace: string) =>
   namespace === ALL_NAMESPACES_KEY ? `${href}/all-namespaces` : `${href}/ns/${namespace}`;
 
 export const matchesPath = (resourcePath, prefix) =>
-  resourcePath === prefix || _.startsWith(resourcePath, `${prefix}/`);
+  resourcePath === prefix || startsWith(resourcePath, `${prefix}/`);
 
 export const stripNS = (href) => {
   // href = stripBasePath(href);
@@ -56,7 +58,7 @@ class NavLink<P extends NavLinkProps> extends React.PureComponent<P> {
   }
 
   static startsWith(resourcePath: string, someStrings: string[]) {
-    return _.some(someStrings, (s) => resourcePath.startsWith(s));
+    return some(someStrings, (s) => resourcePath.startsWith(s));
   }
 
   render() {
@@ -102,7 +104,7 @@ class NavLink<P extends NavLinkProps> extends React.PureComponent<P> {
 export class HrefLink extends NavLink<HrefLinkProps> {
   static isActive(props, resourcePath) {
     const noNSHref = stripNS(props.href);
-    return resourcePath === noNSHref || _.startsWith(resourcePath, `${noNSHref}/`);
+    return resourcePath === noNSHref || startsWith(resourcePath, `${noNSHref}/`);
   }
 
   get to() {
@@ -177,7 +179,7 @@ const rootNavLinkMapStateToProps = (
   state: RootState,
   { required }: RootNavLinkProps,
 ): RootNavLinkStateProps => ({
-  canRender: required ? _.castArray(required).every((r) => state.FLAGS[r]) : true,
+  canRender: required ? castArray(required).every((r) => state.FLAGS[r]) : true,
   activeNamespace: null,
   isActive: false,
 });

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { NavExpandable, NavGroup } from '@patternfly/react-core';
-import * as _ from 'lodash';
+import some from 'lodash/some';
+import find from 'lodash/find';
+import castArray from 'lodash/castArray';
 import { connect } from 'react-redux';
 import {
   Perspective,
@@ -142,7 +144,7 @@ class NavSectionInternal extends React.Component<Props, NavSectionState> {
   getNavItemExtensions = (perspective: string, title: string, id: string) => {
     const { navItemExtensions, perspectiveExtensions } = this.props;
 
-    const defaultPerspective = _.find(perspectiveExtensions, (p) => p.properties.default);
+    const defaultPerspective = find(perspectiveExtensions, (p) => p.properties.default);
     const isDefaultPerspective =
       defaultPerspective && perspective === defaultPerspective.properties.id;
 
@@ -165,8 +167,8 @@ class NavSectionInternal extends React.Component<Props, NavSectionState> {
     const { flags, activeNamespace } = this.props;
     const { name, required, disallowed, id } = c.props;
 
-    const requiredArray = required ? _.castArray(required) : [];
-    const requirementMissing = _.some(
+    const requiredArray = required ? castArray(required) : [];
+    const requirementMissing = some(
       requiredArray,
       (flag) => flag && (flagPending(flags[flag]) || !flags[flag]),
     );

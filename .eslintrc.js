@@ -51,6 +51,16 @@ module.exports = {
     'no-global-strict': 0,
     'no-irregular-whitespace': ['error'],
     'no-prototype-builtins': 0, // Disable with exlint v6 update.
+    'no-restricted-imports': ['error',
+      {
+        name: '@patternfly/react-icons',
+        message: 'Don\'t use group imports. Use @patternfly/react-icons/dist/js/icons/(kebab-case-name) instead.'
+      },
+      {
+        name: 'lodash',
+        message: 'Don\'t use group imports. Use lodash/(funcName) instead.'
+      }
+    ],
     'no-shadow': ['error'],
     'no-underscore-dangle': 0,
     '@typescript-eslint/no-unused-vars': [

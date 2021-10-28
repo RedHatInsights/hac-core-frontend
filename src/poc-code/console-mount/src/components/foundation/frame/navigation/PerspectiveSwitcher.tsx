@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Dropdown, DropdownToggle, DropdownItem, Title } from '@patternfly/react-core';
-import { CaretDownIcon } from '@patternfly/react-icons';
+import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
 import { Perspective, ResolvedExtension, useActivePerspective } from '@console/dynamic-plugin-sdk';
 import { useOnlyRouteFilledPerspectives } from '../../../perspectives';
 

@@ -38,9 +38,7 @@ const DynamicRoute: React.FC<DynamicRouteProps> = ({ location }) => {
             <Component />
           </React.Suspense>
         ) : (
-          <Bullseye>
-            <Spinner />
-          </Bullseye>
+          <Loader />
         )}
       </Main>
     </React.Fragment>

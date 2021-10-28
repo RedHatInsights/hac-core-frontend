@@ -10,7 +10,7 @@ import {
 const Loader = () => <Bullseye><Spinner /></Bullseye>;
 
 type DynamicRouteProps = {
-  location: Location
+  location?: Location
 };
 
 const DynamicRoute: React.FC<DynamicRouteProps> = ({ location }) => {

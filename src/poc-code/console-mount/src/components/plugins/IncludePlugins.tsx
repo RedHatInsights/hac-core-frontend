@@ -24,7 +24,7 @@ const IncludePlugins = ({ enabledPlugins, onPluginRegister = () => undefined }: 
           });
         });
     }
-  }, [pluginStore]);
+  }, [enabledPlugins, pluginStore]);
 
   React.useEffect(() => {
     if (store) {
@@ -35,12 +35,12 @@ const IncludePlugins = ({ enabledPlugins, onPluginRegister = () => undefined }: 
       //     (require('@console/active-plugins').default as ActivePlugin[])
       //   : [];
       const dynamicPluginNames = getEnabledDynamicPluginNames();
-      const pluginStore = new PluginStore(activePlugins, dynamicPluginNames);
+      const initialPluginStore = new PluginStore(activePlugins, dynamicPluginNames);
 
-      initConsolePlugins(pluginStore, store, onPluginRegister);
-      setPluginStore(pluginStore);
+      initConsolePlugins(initialPluginStore, store, onPluginRegister);
+      setPluginStore(initialPluginStore);
     }
-  }, [store]);
+  }, [onPluginRegister, store]);
 
   return null;
 };

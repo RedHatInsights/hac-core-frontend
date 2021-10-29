@@ -19,18 +19,14 @@ type DynamicRouteProps = {
 };
 
 const DynamicRoute: React.FC<DynamicRouteProps> = ({ location }) => {
-  const [Component, setComponent] = React.useState<React.ExoticComponent<any>>(
-    React.Fragment
-  );
+  const [Component, setComponent] = React.useState<React.ExoticComponent<any>>(React.Fragment);
   const dynamicRoutePages = useExtensions<DynamicRoutePage>(isDynamicRoutePage);
   React.useEffect(() => {
     if (location) {
       const [, , app] = location.pathname?.split('/') || [];
       if (app) {
         const { properties: currRoute, pluginName } =
-          dynamicRoutePages.find(
-            ({ properties }) => properties.path === `/${app}`
-          ) || {};
+          dynamicRoutePages.find(({ properties }) => properties.path === `/${app}`) || {};
         if (currRoute) {
           setComponent(() =>
             React.lazy(async () => {
@@ -45,16 +41,16 @@ const DynamicRoute: React.FC<DynamicRouteProps> = ({ location }) => {
                       <ErrorState
                         errorTitle={`There was an error while loading ${pluginName} plugin.`}
                       />
-                    </Bullseye>,
+                    </Bullseye>
                   ),
                 };
               }
-            })
+            }),
           );
         }
       }
     }
-  }, [location?.pathname, dynamicRoutePages]);
+  }, [location, dynamicRoutePages]);
 
   return (
     <Main>

@@ -7,9 +7,8 @@ import { useReduxStore } from './index';
 
 const useReduxReducerExtensions = (): boolean => {
   const store = useReduxStore();
-  const [reduxReducerExtensions, reducersResolved] = useResolvedExtensions<ReduxReducer>(
-    isReduxReducer,
-  );
+  const [reduxReducerExtensions, reducersResolved] =
+    useResolvedExtensions<ReduxReducer>(isReduxReducer);
 
   if (!reducersResolved) return false;
 

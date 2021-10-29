@@ -13,9 +13,8 @@ import EnhancedProvider from './EnhancedProvider';
 
 const MainAppContent: React.FC = () => {
   const reduxExtensionsLoaded = useReduxReducerExtensions();
-  const [contextProviderExtensions, contextProvidersLoaded] = useResolvedExtensions<
-    ContextProvider
-  >(isContextProvider);
+  const [contextProviderExtensions, contextProvidersLoaded] =
+    useResolvedExtensions<ContextProvider>(isContextProvider);
 
   if (!reduxExtensionsLoaded || !contextProvidersLoaded) {
     return <PageLoader />;
@@ -23,7 +22,7 @@ const MainAppContent: React.FC = () => {
 
   const content = (
     // <PageFrame>
-      <AppRoutes />
+    <AppRoutes />
     // </PageFrame>
   );
 

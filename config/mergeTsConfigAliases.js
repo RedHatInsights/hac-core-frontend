@@ -10,17 +10,17 @@ try {
 }
 
 /** @param string { string } */
-const dropTrailingAsterisk = (string) => (
-  string[string.length - 1] === '*'
-    ? string.substr(0, string.length - 2)
-    : string
-);
+const dropTrailingAsterisk = (string) =>
+  string[string.length - 1] === '*' ? string.substr(0, string.length - 2) : string;
 
 const tsConfigAliases = Object.keys(paths).reduce((acc, packageKey) => {
   const packagePath = paths[packageKey][0];
   return {
     ...acc,
-    [dropTrailingAsterisk(packageKey)]: resolve(__dirname, `../${dropTrailingAsterisk(packagePath)}`),
+    [dropTrailingAsterisk(packageKey)]: resolve(
+      __dirname,
+      `../${dropTrailingAsterisk(packagePath)}`,
+    ),
   };
 }, {});
 

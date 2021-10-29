@@ -8,9 +8,11 @@ import {
 import { isRoutePage, LoadedExtension, RoutePage, useExtensions } from '@console/plugin-sdk';
 import EmptyRoute from './static-routes/EmptyRoute';
 
-const LazyDynamicRoute: React.FC<Omit<React.ComponentProps<typeof Route>, 'component'> & {
-  component: LoadedExtension<DynamicRoutePage>['properties']['component'];
-}> = ({ component, ...props }) => {
+const LazyDynamicRoute: React.FC<
+  Omit<React.ComponentProps<typeof Route>, 'component'> & {
+    component: LoadedExtension<DynamicRoutePage>['properties']['component'];
+  }
+> = ({ component, ...props }) => {
   const LazyComponent = React.useMemo(
     () =>
       React.lazy(async () => {
@@ -57,9 +59,7 @@ const getPluginPageRoutes = (
   const inactiveRoutes = [...routePages, ...dynamicRoutePages]
     .filter((r) => r.properties.perspective && r.properties.perspective !== activePerspective)
     .map((r) => {
-      const key = Array.from(r.properties.path)
-        .concat([r.properties.perspective])
-        .join(',');
+      const key = Array.from(r.properties.path).concat([r.properties.perspective]).join(',');
 
       return (
         <Route

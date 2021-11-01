@@ -33,12 +33,10 @@ module.exports = {
       'error',
       { allow: ['UNSAFE_componentWillReceiveProps', 'UNSAFE_componentWillMount'] },
     ],
-    'comma-dangle': ['error', 'always-multiline'],
     'consistent-return': 0,
     'consistent-this': [1, 'that'],
     'default-case': [2],
     'dot-notation': [2],
-    'no-multiple-empty-lines': [2, { max: 2, maxEOF: 0 }],
     eqeqeq: [2, 'allow-null'],
     'guard-for-in': 2,
     'import/no-duplicates': ['error'],
@@ -82,9 +80,6 @@ module.exports = {
     'import/resolver': {
       node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
       typescript: {},
-    },
-    react: {
-      version: 'detect',
     },
   },
   globals: {

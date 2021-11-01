@@ -23,15 +23,12 @@ import NavSection from './NavSection';
 
 export const ALL_NAMESPACES_KEY = '#ALL_NS#';
 export const formatNamespacedRouteForResource = (resource, namespace) =>
-  namespace === ALL_NAMESPACES_KEY
-    ? `/k8s/all-namespaces/${resource}`
-    : `/k8s/ns/${namespace}/${resource}`;
+  namespace === ALL_NAMESPACES_KEY ? `/k8s/all-namespaces/${resource}` : `/k8s/ns/${namespace}/${resource}`;
 
 export const formatNamespacedRouteForHref = (href: string, namespace: string) =>
   namespace === ALL_NAMESPACES_KEY ? `${href}/all-namespaces` : `${href}/ns/${namespace}`;
 
-export const matchesPath = (resourcePath, prefix) =>
-  resourcePath === prefix || startsWith(resourcePath, `${prefix}/`);
+export const matchesPath = (resourcePath, prefix) => resourcePath === prefix || startsWith(resourcePath, `${prefix}/`);
 
 export const stripNS = (href) => {
   // href = stripBasePath(href);
@@ -175,10 +172,7 @@ const RootNavLinkInternal: React.FC<RootNavLinkProps & RootNavLinkStateProps> = 
   );
 };
 
-const rootNavLinkMapStateToProps = (
-  state: RootState,
-  { required }: RootNavLinkProps,
-): RootNavLinkStateProps => ({
+const rootNavLinkMapStateToProps = (state: RootState, { required }: RootNavLinkProps): RootNavLinkStateProps => ({
   canRender: required ? castArray(required).every((r) => state.FLAGS[r]) : true,
   activeNamespace: null,
   isActive: false,
@@ -186,10 +180,7 @@ const rootNavLinkMapStateToProps = (
 
 export const RootNavLink = connect(rootNavLinkMapStateToProps)(RootNavLinkInternal);
 
-export const createLink = (
-  item: LoadedExtension<PluginNavItem>,
-  rootNavLink = false,
-): React.ReactElement => {
+export const createLink = (item: LoadedExtension<PluginNavItem>, rootNavLink = false): React.ReactElement => {
   if (isNavItem(item)) {
     let Component: NavLinkComponent = null;
     if (isHrefNavItem(item)) {

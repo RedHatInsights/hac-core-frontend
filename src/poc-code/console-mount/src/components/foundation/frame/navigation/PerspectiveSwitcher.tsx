@@ -11,9 +11,7 @@ const PerspectiveSwitcher: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const perspectiveExtensions = useOnlyRouteFilledPerspectives();
 
-  const defaultPerspective = perspectiveExtensions.find(
-    (perspective) => perspective.properties.default,
-  );
+  const defaultPerspective = perspectiveExtensions.find((perspective) => perspective.properties.default);
   React.useEffect(() => {
     if (defaultPerspective) {
       setSelectedPerspective(defaultPerspective.properties.id);
@@ -38,9 +36,7 @@ const PerspectiveSwitcher: React.FC = () => {
 
   const activePerspective = !selectedPerspective
     ? defaultPerspective
-    : perspectiveExtensions.find(
-        (perspective) => perspective.properties.id === selectedPerspective,
-      );
+    : perspectiveExtensions.find((perspective) => perspective.properties.id === selectedPerspective);
 
   if (!activePerspective) {
     return null;

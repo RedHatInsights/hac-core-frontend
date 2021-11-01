@@ -5,13 +5,9 @@ export default async ({ dynamicNav, currentNamespace }) => {
   const routes = [];
   routes.push(
     ...activePlugins.flatMap(async (pluginName) => {
-      const { extensions } =
-        (await (await fetch(`/api/plugins/${pluginName}/plugin-manifest.json`))?.json()) || {};
+      const { extensions } = (await (await fetch(`/api/plugins/${pluginName}/plugin-manifest.json`))?.json()) || {};
       return extensions
-        .filter(
-          ({ type, properties }) =>
-            type.includes('console.navigation') && properties.section === navSection,
-        )
+        .filter(({ type, properties }) => type.includes('console.navigation') && properties.section === navSection)
         .map((extension) => ({
           appId,
           href: `/${currentNamespace}/${navSection}${extension.properties.href}`,

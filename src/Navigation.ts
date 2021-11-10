@@ -1,9 +1,24 @@
 import { activePlugins } from './Utils/constants';
+import { HrefNavItem, NavSection } from '@console/dynamic-plugin-sdk/src';
 
-const getAllExtensions = async () => {
+export interface RouteProps {
+  appId: string;
+  href: string;
+  title: string;
+}
+
+export interface DynamicNav {
+  dynamicNav: string;
+  currentNamespace: string;
+}
+
+export type GetAllExtensions = () => Promise<(HrefNavItem | NavSection)[]>;
+export type CalculateRoutes = (navIdentifier: [string, string], currentNamespace: string, extensions: (HrefNavItem | NavSection)[]) => RouteProps[];
+
+const getAllExtensions: GetAllExtensions = async () => {
   return (
     await Promise.all(
-      activePlugins.flatMap(async (pluginName) => {
+      activePlugins.flatMap(async (pluginName: string) => {
         const { extensions } = (await (await fetch(`/api/plugins/${pluginName}/plugin-manifest.json`))?.json()) || {};
         return extensions;
       }),
@@ -11,22 +26,22 @@ const getAllExtensions = async () => {
   ).flat();
 };
 
-const claculateRoutes = ([appId, navSection], currentNamespace, extensions) => {
+const calculateRoutes: CalculateRoutes = ([appId, navSection], currentNamespace, extensions) => {
   return extensions
-    .filter(({ type, properties }) => type.includes('console.navigation/href') && properties.section === navSection)
-    .map((extension) => ({
+    .filter(({ type, properties }: HrefNavItem) => type.includes('console.navigation/href') && properties.section === navSection)
+    .map((extension: HrefNavItem) => ({
       appId,
       href: `/${currentNamespace}${navSection ? `/${navSection}` : ''}${extension.properties.href}`,
       title: extension.properties.name,
     }));
 };
 
-export default async ({ dynamicNav, currentNamespace }) => {
+export default async ({ dynamicNav, currentNamespace }: DynamicNav) => {
   const [appId, navSection] = dynamicNav.split('/');
   const allExtensions = await getAllExtensions();
-  const routes = claculateRoutes([appId, navSection], currentNamespace, allExtensions);
+  const routes = calculateRoutes([appId, navSection], currentNamespace, allExtensions);
   const { properties: currSection } =
-    allExtensions.find(({ type, properties }) => type === 'console.navigation/section' && properties.id === navSection) || {};
+    allExtensions.find(({ type, properties }: NavSection) => type === 'console.navigation/section' && properties.id === navSection) || {};
   return navSection
     ? {
         expandable: true,

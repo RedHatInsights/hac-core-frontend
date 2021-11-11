@@ -2,9 +2,10 @@ import { activePlugins } from './Utils/constants';
 import { HrefNavItem, NavSection } from '@console/dynamic-plugin-sdk/src';
 
 export interface RouteProps {
-  appId: string;
-  href: string;
-  title: string;
+  isHidden?: boolean;
+  appId?: string;
+  href?: string;
+  title?: string;
 }
 
 export interface DynamicNav {
@@ -38,11 +39,17 @@ const calculateRoutes: CalculateRoutes = ([appId, navSection], currentNamespace,
 
 export default async ({ dynamicNav, currentNamespace }: DynamicNav) => {
   const [appId, navSection] = dynamicNav.split('/');
-  const allExtensions = await getAllExtensions();
-  const routes = calculateRoutes([appId, navSection], currentNamespace, allExtensions);
+  let allExtensions = [];
+  let routes: RouteProps | RouteProps[];
+  try {
+    allExtensions = await getAllExtensions();
+    routes = calculateRoutes([appId, navSection], currentNamespace, allExtensions);
+  } catch {
+    routes = [{ isHidden: true }];
+  }
   const { properties: currSection } =
     allExtensions.find(({ type, properties }: NavSection) => type === 'console.navigation/section' && properties.id === navSection) || {};
-  return navSection
+  return currSection
     ? {
         expandable: true,
         title: currSection.name,

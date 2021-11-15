@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-// import { coFetch } from '@console/internal/co-fetch';
+import { coFetch } from '@console/internal/co-fetch';
 import { pluginManifestFile } from '../constants';
 import { ConsolePluginManifestJSON } from '../schema/plugin-manifest';
 import { resolveURL } from '../utils/url';
@@ -8,12 +8,13 @@ export const validatePluginManifestSchema = async (
   manifest: ConsolePluginManifestJSON,
   manifestURL: string,
 ) => {
-  const schema = (await import('../../generated/schema/plugin-manifest')).default;
+  // eslint-disable-next-line
+  const schema = require('../../generated/schema/plugin-manifest.cjs').default;
 
   // Use dynamic import to avoid pulling ajv dependency tree into main vendors chunk
-  const SchemaValidator = await import(
-    '@console/dynamic-plugin-sdk/src/validation/SchemaValidator'
-  ).then((m) => m.SchemaValidator);
+  const SchemaValidator = await import('../validation/SchemaValidator').then(
+    (m) => m.SchemaValidator,
+  );
 
   const validator = new SchemaValidator(manifestURL);
   validator.validate(schema, manifest, 'manifest');
@@ -35,10 +36,9 @@ export const fetchPluginManifest = async (baseURL: string) => {
   // eslint-disable-next-line no-console
   console.info(`Loading plugin manifest from ${url}`);
 
-  // const response: Response = await coFetch(url, { method: 'GET' });
-  // const manifest = (await response.json()) as ConsolePluginManifestJSON;
+  const response: Response = await coFetch(url, { method: 'GET' });
+  const manifest = (await response.json()) as ConsolePluginManifestJSON;
 
-  // (await validatePluginManifestSchema(manifest, url)).report();
-  // return manifest;
-  return null;
+  (await validatePluginManifestSchema(manifest, url)).report();
+  return manifest;
 };

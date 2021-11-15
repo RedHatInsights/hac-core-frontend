@@ -5,7 +5,10 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "test": "npm run test packages/console-plugin-sdk --prefix ../.."
+    "test": "yarn --cwd ../.. test packages/console-plugin-sdk"
+  },
+  "dependencies": {
+    "@console/shared": "0.0.0-fixed"
   },
   "devDependencies": {
     "@types/js-combinatorics": "0.5.x",

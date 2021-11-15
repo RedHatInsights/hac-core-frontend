@@ -1,4 +1,4 @@
-// import { TFunction } from 'i18next';
+import { TFunction } from 'i18next';
 import { deepForOwn } from '@console/dynamic-plugin-sdk/src/utils/object';
 import { Extension } from '../typings';
 
@@ -15,7 +15,7 @@ export const getTranslationKey = (value: string) =>
  * Recursively updates the extension's properties, replacing all translatable string values
  * via the provided `t` function.
  */
-export const translateExtension = <E extends Extension>(extension: E, t: any): E => {
+export const translateExtension = <E extends Extension>(extension: E, t: TFunction): E => {
   deepForOwn(extension.properties, isTranslatableString, (value, key, obj) => {
     obj[key] = t(value);
   });

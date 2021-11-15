@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { useForceRender } from '@console/shared/src/hooks/useForceRender';
+import { useForceRender } from '@console/shared/src/hooks/useForceRender';
 import { DynamicPluginInfo } from '../store';
 import { subscribeToDynamicPlugins } from './pluginSubscriptionService';
 
@@ -23,7 +23,7 @@ import { subscribeToDynamicPlugins } from './pluginSubscriptionService';
  * @returns Console dynamic plugin runtime information.
  */
 export const useDynamicPluginInfo = (): [DynamicPluginInfo[], boolean] => {
-  const forceRender = () => {}; // useForceRender();
+  const forceRender = useForceRender();
 
   const isMountedRef = React.useRef(true);
   const unsubscribeRef = React.useRef<VoidFunction>(null);

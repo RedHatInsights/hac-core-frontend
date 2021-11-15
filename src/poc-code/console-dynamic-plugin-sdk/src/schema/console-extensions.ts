@@ -40,11 +40,11 @@ import { ModelMetadata } from '../extensions/resource-metadata';
 import { StorageProvider } from '../extensions/storage-provider';
 import { TelemetryListener } from '../extensions/telemetry';
 import {
-  TopologyComponentFactory,
-  TopologyCreateConnector,
-  TopologyDataModelFactory,
+  // TopologyComponentFactory,
+  // TopologyCreateConnector,
+  // TopologyDataModelFactory,
   TopologyDecoratorProvider,
-  TopologyDisplayFilters,
+  // TopologyDisplayFilters,
   TopologyRelationshipProvider,
 } from '../extensions/topology';
 import { SupportedTopologyDetailsExtensions } from '../extensions/topology-details';
@@ -91,13 +91,13 @@ export type SupportedExtension =
   | DashboardsInventoryItemGroup
   | DashboardsOverviewInventoryItem
   | DashboardsOverviewResourceActivity
-  | TopologyComponentFactory
-  | TopologyCreateConnector
-  | TopologyDataModelFactory
-  | TopologyDisplayFilters
+  // | TopologyComponentFactory
+  // | TopologyCreateConnector
+  // | TopologyDataModelFactory
+  // | TopologyDisplayFilters
   | TopologyDecoratorProvider
   | TopologyRelationshipProvider
-  | CreateResource
+  // | CreateResource
   | CreateResource
   | UserPreferenceGroup
   | UserPreferenceItem

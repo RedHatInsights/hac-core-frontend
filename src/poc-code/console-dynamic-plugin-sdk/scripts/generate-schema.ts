@@ -65,7 +65,7 @@ const generateSchema = ({ srcFile, typeName, handleConsoleExtensions }: SchemaTy
 
 console.log('Generating Console plugin JSON schemas');
 
-typeConfigs.forEach((tc) => {
+typeConfigs.forEach((tc, idx) => {
   const schema = generateSchema(tc);
   const schemaString = JSON.stringify(schema, null, 2);
   const outPath = resolvePath(`generated/schema/${path.parse(tc.srcFile).name}`);

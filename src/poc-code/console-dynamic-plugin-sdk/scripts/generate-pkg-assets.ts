@@ -5,7 +5,7 @@ import * as readPkg from 'read-pkg';
 import {
   getCorePackage,
   getInternalPackage,
-  getInternalKubevirtPackage,
+  // getInternalKubevirtPackage,
   getWebpackPackage,
 } from './package-definitions';
 import { resolvePath, relativePath } from './utils/path';
@@ -24,7 +24,7 @@ const copyFiles = (files: Record<string, string>) => {
 };
 
 const sdkPackage = readPkg.sync({ normalize: false });
-const rootPackage = readPkg.sync({ cwd: resolvePath('../..'), normalize: false });
+const rootPackage = readPkg.sync({ cwd: resolvePath('../../..'), normalize: false });
 
 const missingDepNames = new Set<string>();
 const missingDepCallback = (name: string) => missingDepNames.add(name);
@@ -32,7 +32,7 @@ const missingDepCallback = (name: string) => missingDepNames.add(name);
 const outPackages = [
   getCorePackage(sdkPackage, rootPackage, missingDepCallback),
   getInternalPackage(sdkPackage, rootPackage, missingDepCallback),
-  getInternalKubevirtPackage(sdkPackage, rootPackage, missingDepCallback),
+  // getInternalKubevirtPackage(sdkPackage, rootPackage, missingDepCallback),
   getWebpackPackage(sdkPackage, rootPackage, missingDepCallback),
 ];
 

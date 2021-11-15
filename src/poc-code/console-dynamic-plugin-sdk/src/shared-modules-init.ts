@@ -6,15 +6,15 @@ import { SharedModuleResolution, RemoteEntryModule } from './types';
 const modules: SharedModuleResolution = {
   '@openshift-console/dynamic-plugin-sdk': async () => () =>
     require('@console/dynamic-plugin-sdk/src/lib-core'),
-  '@openshift-console/dynamic-plugin-sdk-internal': async () => () =>
-    require('@console/dynamic-plugin-sdk/src/lib-internal'),
-  '@openshift-console/dynamic-plugin-sdk-internal-kubevirt': async () => () =>
-    require('@console/dynamic-plugin-sdk/src/lib-internal-kubevirt'),
+  // '@openshift-console/dynamic-plugin-sdk-internal': async () => () =>
+  //   require('@console/dynamic-plugin-sdk/src/lib-internal'),
+  // '@openshift-console/dynamic-plugin-sdk-internal-kubevirt': async () => () =>
+  //   require('@console/dynamic-plugin-sdk/src/lib-internal-kubevirt'),
   '@patternfly/react-core': async () => () => require('@patternfly/react-core'),
   '@patternfly/react-table': async () => () => require('@patternfly/react-table'),
   react: async () => () => require('react'),
-  'react-helmet': async () => () => require('react-helmet'),
-  'react-i18next': async () => () => require('react-i18next'),
+  // 'react-helmet': async () => () => require('react-helmet'),
+  // 'react-i18next': async () => () => require('react-i18next'),
   'react-router': async () => () => require('react-router'),
   'react-router-dom': async () => () => require('react-router-dom'),
 };

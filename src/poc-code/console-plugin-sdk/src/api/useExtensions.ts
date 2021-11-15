@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { useForceRender } from '@console/shared/src/hooks/useForceRender';
 import { Extension, ExtensionTypeGuard, LoadedExtension } from '../typings';
 import { translateExtension } from '../utils/extension-i18n';
-import useTranslationExt from '../utils/useTranslationExt';
+// import useTranslationExt from '../utils/useTranslationExt';
 import { subscribeToExtensions } from './pluginSubscriptionService';
+
+// Copied from '@console/shared/src/hooks/useForceRender'
+const useForceRender = () => React.useReducer((s: boolean) => !s, false)[1] as VoidFunction;
 
 /**
  * React hook for consuming Console extensions.
@@ -51,7 +53,8 @@ export const useExtensions = <E extends Extension>(
   const unsubscribeRef = React.useRef<VoidFunction>(null);
   const extensionsInUseRef = React.useRef<LoadedExtension<E>[]>([]);
   const latestTypeGuardsRef = React.useRef<ExtensionTypeGuard<E>[]>(typeGuards);
-  const { t } = useTranslationExt();
+  // const { t } = useTranslationExt();
+  const t = (v) => v;
 
   const trySubscribe = React.useCallback(() => {
     if (unsubscribeRef.current === null) {

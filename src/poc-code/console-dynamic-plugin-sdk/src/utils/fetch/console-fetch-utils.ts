@@ -1,7 +1,9 @@
 import * as _ from 'lodash';
-import { authSvc } from '@console/internal/module/auth';
+// import { authSvc } from '@console/internal/module/auth';
 import { RetryError, HttpError } from '../error/http-error';
-import { InternalReduxStore } from '../redux';
+// import { InternalReduxStore } from '../redux';
+
+const InternalReduxStore = null;
 
 const cookiePrefix = 'csrf-token=';
 export const getCSRFToken = () =>
@@ -50,7 +52,8 @@ export const validateStatus = async (
   }
 
   if (response.status === 401 && shouldLogout(url)) {
-    authSvc.logout(window.location.pathname);
+    // authSvc.logout(window.location.pathname);
+    console.error('// authSvc.logout(window.location.pathname);');
   }
 
   const contentType = response.headers.get('content-type');

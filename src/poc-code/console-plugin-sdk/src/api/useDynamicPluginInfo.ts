@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { useForceRender } from '@console/shared/src/hooks/useForceRender';
+// import { useForceRender } from '@console/shared/src/hooks/useForceRender';
 import { DynamicPluginInfo } from '../store';
 import { subscribeToDynamicPlugins } from './pluginSubscriptionService';
+
+// Copied from '@console/shared/src/hooks/useForceRender'
+const useForceRender = () => React.useReducer((s: boolean) => !s, false)[1] as VoidFunction;
 
 /**
  * React hook for consuming Console dynamic plugin runtime information.

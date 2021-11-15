@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Store } from 'redux';
-import { RootState } from '@console/internal/redux';
+// import { RootState } from '@console/internal/redux';
 import { isExtensionInUse, PluginStore, DynamicPluginInfo } from '../store';
 import { Extension, ExtensionTypeGuard, LoadedExtension } from '../typings';
 
@@ -26,7 +26,7 @@ const subscribe = <T>(sub: T, subList: T[], invokeListener: VoidFunction): VoidF
   };
 };
 
-export const initSubscriptionService = (pluginStore: PluginStore, reduxStore: Store<RootState>) => {
+export const initSubscriptionService = (pluginStore: PluginStore, reduxStore: Store/* <RootState> */) => {
   if (subscriptionServiceInitialized) {
     throw new Error('Subscription service is already initialized');
   }
@@ -48,7 +48,7 @@ export const initSubscriptionService = (pluginStore: PluginStore, reduxStore: St
 
     // Gate matched extensions by relevant feature flags
     const extensionsInUse = matchedExtensions.filter((e) =>
-      isExtensionInUse(e, currentFlags.toObject()),
+      isExtensionInUse(e, currentFlags),
     );
 
     // Invoke listener only if the extension list has changed

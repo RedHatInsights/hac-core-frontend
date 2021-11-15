@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { coFetch } from '@console/internal/co-fetch';
+// import { coFetch } from '@console/internal/co-fetch';
 import { pluginManifestFile } from '../constants';
 import { ConsolePluginManifestJSON } from '../schema/plugin-manifest';
 import { resolveURL } from '../utils/url';
@@ -36,9 +36,11 @@ export const fetchPluginManifest = async (baseURL: string) => {
   // eslint-disable-next-line no-console
   console.info(`Loading plugin manifest from ${url}`);
 
-  const response: Response = await coFetch(url, { method: 'GET' });
-  const manifest = (await response.json()) as ConsolePluginManifestJSON;
-
-  (await validatePluginManifestSchema(manifest, url)).report();
-  return manifest;
+  console.error('commented out fetchPluginManifest')
+  // const response: Response = await coFetch(url, { method: 'GET' });
+  // const manifest = (await response.json()) as ConsolePluginManifestJSON;
+  //
+  // (await validatePluginManifestSchema(manifest, url)).report();
+  // return manifest;
+  return null;
 };

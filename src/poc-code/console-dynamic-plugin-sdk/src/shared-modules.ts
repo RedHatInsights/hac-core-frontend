@@ -3,8 +3,8 @@
  */
 export const sharedPluginModules = [
   '@openshift-console/dynamic-plugin-sdk',
-  '@openshift-console/dynamic-plugin-sdk-internal',
-  '@openshift-console/dynamic-plugin-sdk-internal-kubevirt',
+  // '@openshift-console/dynamic-plugin-sdk-internal',
+  // '@openshift-console/dynamic-plugin-sdk-internal-kubevirt',
   '@patternfly/react-core',
   // '@patternfly/react-table',
   'react',

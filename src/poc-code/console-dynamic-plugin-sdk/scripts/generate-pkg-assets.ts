@@ -31,7 +31,7 @@ const missingDepCallback = (name: string) => missingDepNames.add(name);
 
 const outPackages = [
   getCorePackage(sdkPackage, rootPackage, missingDepCallback),
-  getInternalPackage(sdkPackage, rootPackage, missingDepCallback),
+  // getInternalPackage(sdkPackage, rootPackage, missingDepCallback),
   // getInternalKubevirtPackage(sdkPackage, rootPackage, missingDepCallback),
   getWebpackPackage(sdkPackage, rootPackage, missingDepCallback),
 ];

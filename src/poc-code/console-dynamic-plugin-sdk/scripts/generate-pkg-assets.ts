@@ -44,6 +44,6 @@ if (missingDepNames.size > 0) {
 outPackages.forEach((pkg) => {
   console.log(`Generating assets for package ${chalk.bold(pkg.manifest.name)}`);
 
-  writePackageManifest(pkg.manifest, pkg.outDir);
   copyFiles(_.mapValues(pkg.filesToCopy, (dest) => `${pkg.outDir}/${dest}`));
+  writePackageManifest(pkg.manifest, pkg.outDir);
 });
